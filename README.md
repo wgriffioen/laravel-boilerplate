@@ -19,6 +19,7 @@ To bootstrap a new project, simply run the following command
 
 - Move the models to the namespace `App/Models` and the corresponding folder
 - Enable Laravel Auth by default
+- Switch to the React preset. It's easy to revert this by running `php artisan preset vue`
 
 ## Additions
 
