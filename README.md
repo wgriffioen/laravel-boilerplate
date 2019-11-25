@@ -1,8 +1,8 @@
 # Laravel boiler plate
 
 Laravel boiler plate is my personal starter kit to speed up the process of bootstrapping a new Laravel project. It is 
-based on version 5.7 of Laravel and includes a few packages I always tend to install as well as a few additions which I
-find useful.
+based on the most recent version of Laravel and includes a few packages I always tend to install as well as a few 
+additions which I find useful.
 
 ## Requirements
 
@@ -34,9 +34,7 @@ To bootstrap a new project, simply run the following commands
 I'm not a fan of Laravel's Eloquent because it's not completely separation of concerns. Because of this, I like to make
 use of repositories to query, create, modify and destroy data in the data source. The way I set this up, is to extend
 the `App\Repositories\AbstractEloquentRepository` which implements the `App\Repositories\RepositoryInterface`. The
-implementation is registered in `App\Providers\RepositoryServiceProvider`. This makes it easy to let the service 
-container of Laravel inject a repository as a dependency as can be seen in 
-`App\Http\Controllers\Auth\RegisterController`.
+repository can than be injected as a dependency as can be in `App\Http\Controllers\Auth\RegisterController`.
 
 A basic UserRepository look like this
 
@@ -45,24 +43,19 @@ A basic UserRepository look like this
 
 namespace App\Repositories;
 
+use App\Models\User;
+
 class UserRepository extends AbstractEloquentRepository
 {
-    public function findByEmail(string $email)
+    public function __construct() 
+    {
+        $this->model = new User();
+    }
+
+    public function findByEmail(string $email): ?User
     {
         return $this->model->where('email', $email)->first();
     }
-}
-```
-    
-To use the repository in the controller, it needs to be registered in the service provider on order to be injected in 
-the controller:
-
-```php
-public function register()
-{
-    $this->app->bind(UserRepository::class, function () {
-        return new UserRepository(new User());
-    });
 }
 ```
     

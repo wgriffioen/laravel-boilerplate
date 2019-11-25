@@ -35,12 +35,11 @@ abstract class AbstractEloquentRepository implements RepositoryInterface
     protected $model;
 
     /**
-     * @param Model $model
+     * Create an instance of a repository
+     *
+     * The constructor should set the $model property of the repository.
      */
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    abstract function __construct();
 
     /**
      * {@inheritdoc}
